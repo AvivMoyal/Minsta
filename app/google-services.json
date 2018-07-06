@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "27401370242",
+    "firebase_url": "https://minsta-c3896.firebaseio.com",
+    "project_id": "minsta-c3896",
+    "storage_bucket": "minsta-c3896.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:27401370242:android:55a6f1a4c2ba747e",
+        "android_client_info": {
+          "package_name": "com.example.avivmoyal.minsta"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "27401370242-rbg1123a6a1kjeg25cdp5m8uc94kth92.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.avivmoyal.minsta",
+            "certificate_hash": "0e07e630f4636bd9e2c9c1bb7f57449baebbe472"
+          }
+        },
+        {
+          "client_id": "27401370242-fjgj7f0q228uttgfidedplb688rn97bf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDsLbUL_zfPLgugGsW5GAivfH8GV8ZK7oQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "27401370242-fjgj7f0q228uttgfidedplb688rn97bf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

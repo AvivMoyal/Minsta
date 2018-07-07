@@ -30,10 +30,11 @@ public class Post {
         // Default constructor required for calls to DataSnapshot.getValue(User.class)
     }
 
-    public Post(String key, String userId, String downloadUrl) {
+    public Post(String key, String userId, String downloadUrl, String text) {
         this.key = key;
         this.userId = userId;
         this.downloadUrl = downloadUrl;
+        this.text = text;
     }
 
     public void addLike() {

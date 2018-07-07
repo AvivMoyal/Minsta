@@ -86,7 +86,7 @@ public class NewPostActivity extends AppCompatActivity {
 
                     // save image to database
                     String key = database.child("posts").push().getKey();
-                    Post post = new Post(key, fbUser.getUid(), downloadUrl.toString());
+                    Post post = new Post(key, fbUser.getUid(), downloadUrl.toString(),mEdit.getText().toString());
                     database.child("posts").child(key).setValue(post);
 
                     gotoFeed();

@@ -19,14 +19,14 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView mTextuser;
-//        public TextView mTextView;
+        public TextView mTextView;
         public ImageView mImageView;
         public Button mLikeButton;
 
         public ViewHolder(View v) {
             super(v);
             mTextuser = v.findViewById(R.id.textView2);
-//            mTextView = v.findViewById(R.id.textView2);
+            mTextView = v.findViewById(R.id.textView);
             mImageView = v.findViewById(R.id.imageView);
             mLikeButton = v.findViewById(R.id.likeButton);
         }
@@ -56,9 +56,9 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
         if (post.user != null) {
             holder.mTextuser.setText(post.user.displayName);
         }
-//        if (post.text!= null) {
-//            holder.mTextView.setText(post.text);
-//        }
+        if (post.text!= null) {
+            holder.mTextView.setText(post.text);
+        }
         Picasso.get().load(post.downloadUrl).into(holder.mImageView);
 
         holder.mLikeButton.setText("Like (" + post.likes + ")");

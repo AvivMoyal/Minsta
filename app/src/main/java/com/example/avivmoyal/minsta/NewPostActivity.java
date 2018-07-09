@@ -2,19 +2,24 @@ package com.example.avivmoyal.minsta;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Location;
 import android.net.Uri;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.avivmoyal.minsta.model.Post;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -29,6 +34,12 @@ import java.util.Date;
 public class NewPostActivity extends AppCompatActivity {
     static final int RC_IMAGE_GALLERY = 2;
     static final int RC_PERMISSION_READ_EXTERNAL_STORAGE = 1;
+    private static final String FINE_LOCATION = android.Manifest.permission.ACCESS_FINE_LOCATION;
+    private static final String COARSE_LOCATION = android.Manifest.permission.ACCESS_COARSE_LOCATION;
+    private FusedLocationProviderClient fusedLocationProviderClient;
+    private static final int LOCATION_PERMISSION_REWUEST_CODE = 1234;
+    private Location currentLocation;
+    private boolean locationPermissionsGranted = false;
 
     FirebaseUser fbUser;
     DatabaseReference database;
@@ -38,6 +49,8 @@ public class NewPostActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_post);
+
+        getLocationPermission();
 
         fbUser = FirebaseAuth.getInstance().getCurrentUser();
         if (fbUser == null) {
@@ -87,6 +100,11 @@ public class NewPostActivity extends AppCompatActivity {
                     // save image to database
                     String key = database.child("posts").push().getKey();
                     Post post = new Post(key, fbUser.getUid(), downloadUrl.toString(),mEdit.getText().toString());
+                    if (currentLocation != null) {
+//                        post.curLocation = new LatLng(currentLocation.getLatitude(),currentLocation.getLongitude());
+                        post.lat = currentLocation.getLatitude();
+                        post.lng = currentLocation.getLongitude();
+                    }
                     database.child("posts").child(key).setValue(post);
 
                     gotoFeed();
@@ -94,6 +112,46 @@ public class NewPostActivity extends AppCompatActivity {
             });
         }
     }
+
+    private void getLocationPermission() {
+        String[] permissions = {COARSE_LOCATION, FINE_LOCATION};
+
+        if (ContextCompat.checkSelfPermission(this.getApplicationContext(), FINE_LOCATION) ==
+                PackageManager.PERMISSION_GRANTED) {
+            if (ContextCompat.checkSelfPermission(this.getApplicationContext(), COARSE_LOCATION) ==
+                    PackageManager.PERMISSION_GRANTED) {
+                locationPermissionsGranted = true;
+                getDeviceLocation();
+            } else {
+                ActivityCompat.requestPermissions(this, permissions, LOCATION_PERMISSION_REWUEST_CODE);
+            }
+        } else {
+            ActivityCompat.requestPermissions(this, permissions, LOCATION_PERMISSION_REWUEST_CODE);
+        }
+    }
+
+    private void getDeviceLocation() {
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
+
+        try {
+            if (locationPermissionsGranted) {
+                Task location = fusedLocationProviderClient.getLastLocation();
+                location.addOnCompleteListener(new OnCompleteListener() {
+                    @Override
+                    public void onComplete(@NonNull Task task) {
+                        if (task.isSuccessful()) {
+                            currentLocation = (Location) task.getResult();
+                        } else {
+                            Toast.makeText(NewPostActivity.this, "unable to get current location", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+            }
+
+        } catch (SecurityException e) {
+        }
+    }
+
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {

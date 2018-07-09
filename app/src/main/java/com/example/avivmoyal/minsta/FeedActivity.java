@@ -25,8 +25,6 @@ import java.util.ArrayList;
 
 public class FeedActivity extends AppCompatActivity {
 
-//    static final int RC_PERMISSION_READ_EXTERNAL_STORAGE = 1;
-//    static final int RC_IMAGE_GALLERY = 2;
     DatabaseReference database;
     RecyclerView recyclerView;
     RecyclerView.LayoutManager mLayoutManager;
@@ -144,66 +142,19 @@ public class FeedActivity extends AppCompatActivity {
         });
     }
 
-    public void  addPost(View view) {
+    public void addPost(View view) {
         // go to new post activity
         Intent intent = new Intent(this, NewPostActivity.class);
         startActivity(intent);
     }
-//    public void uploadImage(View view) {
-//        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-//            ActivityCompat.requestPermissions(this, new String[] {android.Manifest.permission.READ_EXTERNAL_STORAGE}, RC_PERMISSION_READ_EXTERNAL_STORAGE);
-//        } else {
-//            Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-//            intent.setType("image/*");
-//            startActivityForResult(intent, RC_IMAGE_GALLERY);
-//        }
-//    }
 
-//    @Override
-//    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-//        if (requestCode == RC_PERMISSION_READ_EXTERNAL_STORAGE) {
-//            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-//                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-//                intent.setType("image/*");
-//                startActivityForResult(intent, RC_IMAGE_GALLERY);
-//            }
-//        }
-//    }
+    public void gotoMap(View view) {
+        // go to new post activity
+        Intent intent = new Intent(this, MapsActivity.class);
+        intent.putExtra("posts", posts);
+        startActivity(intent);
 
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        if (requestCode == RC_IMAGE_GALLERY && resultCode == RESULT_OK) {
-//            Uri uri = data.getData();
-//
-//            StorageReference storageRef = FirebaseStorage.getInstance().getReference();
-//            StorageReference imagesRef = storageRef.child("images");
-//            StorageReference userRef = imagesRef.child(fbUser.getUid());
-//            String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-//            String filename = fbUser.getUid() + "_" + timeStamp;
-//            StorageReference fileRef = userRef.child(filename);
-//
-//            UploadTask uploadTask = fileRef.putFile(uri);
-//            uploadTask.addOnFailureListener(new OnFailureListener() {
-//                @Override
-//                public void onFailure(@NonNull Exception exception) {
-//                    // Handle unsuccessful uploads
-//                    Toast.makeText(FeedActivity.this, "Upload failed!\n" + exception.getMessage(), Toast.LENGTH_LONG).show();
-//                }
-//            }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-//                @Override
-//                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-//                    Uri downloadUrl = taskSnapshot.getDownloadUrl();
-//                    Toast.makeText(FeedActivity.this, "Upload finished!", Toast.LENGTH_SHORT).show();
-//
-//                    // save image to database
-//                    String key = database.child("posts").push().getKey();
-//                    Post post = new Post(key, fbUser.getUid(), downloadUrl.toString());
-//                    database.child("posts").child(key).setValue(post);
-//                }
-//            });
-//        }
-//    }
-
+    }
     public void setLiked(Post post) {
         if(!post.hasLiked) {
             // add new Like

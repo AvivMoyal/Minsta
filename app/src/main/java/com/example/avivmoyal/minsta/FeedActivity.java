@@ -52,8 +52,8 @@ public class FeedActivity extends AppCompatActivity {
         mAdapter = new ImageAdapter(posts, this);
         recyclerView.setAdapter(mAdapter);
 
-        // Get the latest 100 images
-        Query postsQuery = database.child("posts").orderByKey().limitToFirst(100);
+        // Get the latest 5 images
+        Query postsQuery = database.child("posts").orderByKey().limitToFirst(5);
         postsQuery.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {

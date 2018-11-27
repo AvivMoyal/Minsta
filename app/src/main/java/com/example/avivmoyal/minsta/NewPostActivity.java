@@ -169,9 +169,8 @@ public class NewPostActivity extends AppCompatActivity {
     }
 
     public void gotoFeed() {
-
         // go back to feed activity
-        Intent intent = new Intent(this, NewPostActivity.class);
+        Intent intent = new Intent(this, FeedActivity.class);
         startActivity(intent);
 
     }
